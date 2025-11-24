@@ -1,0 +1,6 @@
+/dist/
+/src/csved.egg-info/
+/venv_csved/
+
+__pycache__/
+
