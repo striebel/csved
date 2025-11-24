@@ -2,7 +2,8 @@ import sys
 import argparse
 
 
-from .hello.__main__ import init_parser as init_parser_hello 
+from .hello.__main__ import init_parser as init_parser_hello
+from .ls   .__main__ import init_parser as init_parser_ls
 
 
 def main() -> int:
@@ -19,6 +20,12 @@ def main() -> int:
     assert isinstance(prch, argparse.ArgumentParser), type(prch)
     assert 'hello' == prch.prog, prch.prog
     del prch
+
+    # prcl: parser root children ls
+    prcl = init_parser_ls(prc=prc)
+    assert isinstance(prcl, argparse.ArgumentParser), type(prcl)
+    assert 'ls' == prcl.prog, prcl.prog
+    del prcl
 
     args = pr.parse_args()
     del pr
