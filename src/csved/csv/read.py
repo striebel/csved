@@ -5,6 +5,31 @@ import textwrap
 
 
 def read_csv_file(csv_file_path) -> list:
+    '''
+    A csv file has two primary special characters:
+    newlines (\\n) to delimit rows and commas (,) to delimit cells
+    within a row.
+    If it is desired that a cell contain one, or both, of the
+    special characters, the special characters are encoded within the cell
+    like any other character without any kind of escape syntax.
+    However, the entire cell is enclosed in double quote characters (")
+    so that when a comma or newline is scanned before reaching the
+    cell-ending double quote character, the reader knows that those characters
+    should be included in the cell like any other character and do not mark
+    the end of a cell or the end of a row.
+    The only complication that doing this introduces is that it makes
+    the double quote character itself a special character.
+    If a double quote character were to be the first regular character in
+    a cell, this would introduce ambiguity as to whether the double quote
+    should be interpreted as introducing a special double-quoted cell that contains
+    commas and/or newlines or whether the double quote should be interpreted
+    as an ordinary character like any other that is included in the cell.
+    This ambiguity is resolved by requiring all double quotes that appear in a
+    cell to be escaped by being duplicated, so one double quote (") is replaced
+    by two ("").
+    And any cell that contains a double quote that has been escaped must be wrapped
+    in double quotes the same as a cell that contains a comma or a newline.
+    '''
 
     assert os.path.isfile(csv_file_path), csv_file_path
 
