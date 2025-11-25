@@ -8,7 +8,7 @@ from ...csv.read import read_csv_file
 def ls_rows(rows: list) -> int:
 
     row_idxs_str = ''
-    for row_idx in range(1, len(rows)+1):
+    for row_idx in range(1, len(rows)):
         if 0 < len(row_idxs_str):
             row_idxs_str += ' '
         row_idxs_str += str(row_idx)
