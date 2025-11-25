@@ -36,11 +36,12 @@ def init_parser(
     assert isinstance(prclcr, argparse.ArgumentParser), type(prclcr)
     
     prclcr.add_argument(
-        '-r',
+        '-i',
         '--row-idx',
         dest    = 'row_idx',
         metavar = 'row_idx',
-        type    = int
+        type    = int,
+        default = None,
     )
     prclcr.add_argument(
         'csv_file_path',

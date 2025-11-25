@@ -5,24 +5,7 @@ from ...csv.read import read_csv_file
 
 
 
-def ls_row(
-    row_idx
-    csv_file_path: str,
-) -> int:
-    '''\
-    List rows in a csv file to stdout.
-    
-    :param csv_file_path: Path to the csv file which should have its rows listed.
-    
-    :return: exit status
-    '''
-    assert isinstance(csv_file_path, str), type(csv_file_path)
-    assert 0 < len(csv_file_path)
-    assert os.path.isfile(csv_file_path), csv_file_path
-    assert 0 < os.path.getsize(csv_file_path), csv_file_path
-
-    rows = read_csv_file(csv_file_path=csv_file_path)
-    assert isinstance(rows, list), type(rows)
+def ls_rows(rows: list) -> int:
 
     row_idxs_str = ''
     for row_idx in range(1, len(rows)+1):
@@ -32,40 +15,48 @@ def ls_row(
     
     row_idxs_str += '\n'
     sys.stdout.write(row_idxs_str)
-
-    return None
-
-
-
-import sys
-import textwrap
-
-from . import read_issue_tracker_file
+    
+    return 0
 
 
-def show_issue(issue_id) -> None:
 
-    issue_id_to_fields = read_issue_tracker_file()
+def show_row(
+    rows   : list,
+    row_idx: int,
+) -> int:
+    assert isinstance(rows, list), type(rows)
+    assert 2 <= len(rows), len(rows)
 
-    fieldname_to_colidx = issue_id_to_fields.pop(0)
+    assert isinstance(row_idx, int), type(row_idx)
+    assert (
+        ( -(len(rows)-1) <= row_idx and row_idx <= -1 )
+        or
+        ( 1 <= row_idx and row_idx < len(rows) )
+    ), (row_idx, len(rows))
 
-    if issue_id not in issue_id_to_fields:
-        sys.stderr.write(f'error: issue_id "{issue_id}" is not found in the issue tracker file\n')
-        sys.exit(2)
+
+    colidx_to_fieldname = \
+        {
+            colidx: fieldname
+            for colidx, fieldname in enumerate(rows[0])
+        }
 
 
     colidx__fieldname = \
         [
             (colidx, fieldname)
-            for fieldname, colidx in fieldname_to_colidx.items()
+            for colidx, fieldname in colidx_to_fieldname.items()
         ]
 
     colidx__fieldname.sort(reverse=False)
 
 
-    fields = issue_id_to_fields[issue_id]
-    assert issue_id == fields['issue_id'], (issue_id, fields['issue_id'])
-    del issue_id
+    fields = \
+        {
+            colidx_to_fieldname[colidx]: fieldvalue
+            for colidx, fieldvalue in enumerate(rows[row_idx])
+        }
+
 
     max_fieldname_width = max(len(fieldname) for fieldname in fields.keys())
 
@@ -149,7 +140,41 @@ def show_issue(issue_id) -> None:
             sys.stdout.write(f'{ls}\n')
         
 
-    return None
+    return 0
+    
+
+
+def ls_row(
+    row_idx      : int,
+    csv_file_path: str,
+) -> int:
+    '''\
+    List rows in a csv file to stdout.
+    
+    :param row_idx: The specific row to show in detail.
+    :param csv_file_path: Path to the csv file which should have its rows listed.
+    
+    :return: exit status
+    '''
+    assert isinstance(csv_file_path, str), type(csv_file_path)
+    assert 0 < len(csv_file_path)
+    assert os.path.isfile(csv_file_path), csv_file_path
+    assert 0 < os.path.getsize(csv_file_path), csv_file_path
+    
+    rows = read_csv_file(csv_file_path=csv_file_path)
+    assert isinstance(rows, list), type(rows)
+    
+    if row_idx is None:
+        exit_status = ls_rows(rows=rows)
+    else:
+        assert isinstance(row_idx, int), type(row_idx)
+        exit_status = show_row(rows=rows, row_idx=row_idx)
+
+    assert isinstance(exit_status, int), type(exit_status)
+    assert 0 <= exit_status and exit_status <= 255, exit_status
+
+    return exit_status
+
 
 
 
