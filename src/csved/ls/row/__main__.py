@@ -3,7 +3,7 @@ import argparse
 import textwrap
 
 
-from .ls_row import ls_row
+from . import ls_row
 
 
 NAME = PROG = 'row'
@@ -37,9 +37,14 @@ def init_parser(
     
     prclcr.add_argument(
         '-r',
-        '--row',
-        dest = 'row',
-        
+        '--row-idx',
+        dest    = 'row_idx',
+        metavar = 'row_idx',
+        type    = int
+    )
+    prclcr.add_argument(
+        'csv_file_path',
+        type = str,
     )
     prclcr.set_defaults(func=ls_row)
     
