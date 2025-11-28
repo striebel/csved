@@ -36,7 +36,7 @@ def init_parser(
     assert isinstance(prclcr, argparse.ArgumentParser), type(prclcr)
     
     prclcr.add_argument(
-        '-i',
+        '-r',
         '--row-idx',
         dest    = 'row_idx',
         metavar = 'row_idx',

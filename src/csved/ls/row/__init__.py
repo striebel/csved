@@ -61,10 +61,12 @@ def show_row(
     max_fieldname_width = max(len(fieldname) for fieldname in fields.keys())
 
     a = 'fieldname'.ljust(max_fieldname_width)
+    b = '---------'.ljust(max_fieldname_width)
 
     sys.stdout.write(f'colidx{" "*2}{a}{" "*2}fieldvalue\n')
+    sys.stdout.write(f'------{" "*2}{b}{" "*2}----------\n')
 
-    del a
+    del a, b
 
     for colidx, fieldname in colidx__fieldname:
 

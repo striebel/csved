@@ -12,9 +12,9 @@ def write_csv_file(rows: list, csv_file_path: str) -> None:
     for rowidx in range(len(rows)):
         assert isinstance(rows[rowidx], list), (rowidx, type(rows[rowidx]))
         assert ncols == len(rows[rowidx]), (ncols, rowidx, len(rows[rowidx]))
-        for colidx in range(len(ncols)):
+        for colidx in range(ncols):
             assert isinstance(rows[rowidx][colidx], str), \
-                (rowidx, colidx, type(rows[rowidx][colidx])
+                (rowidx, colidx, type(rows[rowidx][colidx]))
 
     csv_str = ''
     for row in rows:

@@ -14,12 +14,15 @@ def ls_col(csv_file_path: str) -> int:
     assert isinstance(rows, list), type(rows)
     assert 0 < len(rows)
     
-    colidx__fieldname = [('colidx', 'fieldname')]
+    colidx__fieldname = \
+        [
+            ('colidx', 'fieldname'),
+            ('------', '---------'),
+        ]
     for colidx, fieldname in enumerate(rows[0]):
         assert isinstance(colidx, int), type(colidx)
         assert 0 <= colidx, colidx
         assert isinstance(fieldname, str), (colidx, type(fieldname), fieldname)
-        assert 0 < len(fieldname)
         colidx__fieldname.append((str(colidx), fieldname))
 
     max_colidx_width    = max(len(ci) for ci, __ in colidx__fieldname)
