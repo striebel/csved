@@ -42,7 +42,7 @@ def delete_col(colidx: int, csv_file_path) -> int:
                 )
             )
         if 'y' != yorn:
-            sys.stderr.write(f'You entered "{yorn}": aborting\n')
+            sys.stderr.write(f'You entered "{yorn}": Aborting\n')
             return 1
 
     deleted_col = []
@@ -53,6 +53,10 @@ def delete_col(colidx: int, csv_file_path) -> int:
     del col_to_delete, deleted_col
 
     assert write_csv_file(rows=rows, csv_file_path=csv_file_path) is None
+    del rows, csv_file_path
+
+    sys.stderr.write(f'Column at colidx={colidx} was deleted\n')
+    del colidx
 
     return 0
 

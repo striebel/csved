@@ -1,4 +1,5 @@
 import os
+import sys
 import textwrap
 
 from ...csv.read import read_csv_file
@@ -40,11 +41,14 @@ def delete_row(rowidx: int, csv_file_path: str) -> int:
                 ).replace('\n', ' ')
             )
         if 'y' != yorn:
+            sys.stderr.write(f'You entered "{yorn}": Aborting\n')
             return 1
     
     assert row_for_deletion == rows.pop(rowidx)
 
     assert write_csv_file(rows=rows, csv_file_path=csv_file_path) is None
+
+    sys.stderr.write(f'Row at rowidx={rowidx} was deleted\n')
 
     return 0
 
