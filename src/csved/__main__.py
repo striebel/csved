@@ -9,6 +9,7 @@ from .delete          import init_parser as init_parser_delete
 from .cp              import init_parser as init_parser_cp
 from .isempty         import init_parser as init_parser_isempty
 from .cmp             import init_parser as init_parser_cmp
+from .ed              import init_parser as init_parser_ed
 
 
 def main() -> int:
@@ -61,6 +62,12 @@ def main() -> int:
     assert isinstance(prcp, argparse.ArgumentParser), type(prcp)
     assert 'cmp' == prcp.prog, prcp.prog
     del prcp
+
+    # prce: parser root children ed
+    prce = init_parser_ed(prc=prc)
+    assert isinstance(prce, argparse.ArgumentParser), type(prce)
+    assert 'ed' == prce.prog, prce.prog
+    del prce
 
     args = pr.parse_args()
     del pr
