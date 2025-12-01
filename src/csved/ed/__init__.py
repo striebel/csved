@@ -1,6 +1,7 @@
 import argparse
 
-from .row import init_parser as init_parser_ed_row
+from .row  import init_parser as init_parser_ed_row
+from .cell import init_parser as init_parser_ed_cell
 
 
 NAME = PROG = 'ed'
@@ -23,6 +24,11 @@ def init_parser(prc):
     assert isinstance(prcecr, argparse.ArgumentParser), type(prcecr)
     assert 'row' == prcecr.prog, prcecr.prog
     del prcecr
+
+    prcecc = init_parser_ed_cell(prcec=prcec)
+    assert isinstance(prcecc, argparse.ArgumentParser), type(prcecc)
+    assert 'cell' == prcecc.prog, prcecc.prog
+    del prcecc
 
     del prcec
 

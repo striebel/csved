@@ -147,7 +147,11 @@ def ed_row(rowidx: int, csv_file_path: str) -> int:
 
                 state = STATE_SEEK_NEXT_COLUMN
 
-            elif f'# colidx={colidx+1}; colname={rows[0][colidx+1]}' == line:
+            elif (
+                colidx + 1 < len(rows[0])
+                and
+                f'# colidx={colidx+1}; colname={rows[0][colidx+1]}' == line
+            ):
 
                 colidx += 1
 
