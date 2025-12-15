@@ -1,44 +1,36 @@
 import os
+import sys
 
 from ...csv.read import read_csv_file
-from ...csv.write import write_csv_file
 
 
-
-def ed_cell(rowidx: int, colidx: int, cellvalue: str, csv_file_path: str) -> int:
-
+def ls_cell(rowidx, colidx, csv_file_path) -> int:
     assert isinstance(rowidx, int), type(rowidx)
     assert isinstance(colidx, int), type(colidx)
-    assert isinstance(cellvalue, str), type(cellvalue)
 
     assert isinstance(csv_file_path, str), type(csv_file_path)
-    assert 0 < len(csv_file_path)
+    assert 0 < len(csv_file_path), csv_file_path
     assert os.path.isfile(csv_file_path), csv_file_path
     assert 0 < os.path.getsize(csv_file_path), csv_file_path
 
     rows = read_csv_file(csv_file_path=csv_file_path)
+    del csv_file_path
     assert isinstance(rows, list), type(rows)
     assert 0 < len(rows)
 
     row = rows[rowidx]
-    del rowidx
+    del rows
     assert isinstance(row, list), type(row)
     assert 0 < len(row)
-    
-    old_cellvalue = row[colidx]
-    assert isinstance(old_cellvalue, str), type(old_cellvalue)
-    del old_cellvalue
 
-    assert row in rows
-    row[colidx] = cellvalue
-    del colidx, row
+    cell = row[colidx]
+    del row
+    assert isinstance(cell, str), type(cell)
 
-    assert write_csv_file(csv_file_path=csv_file_path, rows=rows) is None
-    del rows, csv_file_path
+    sys.stdout.write(f'{cell}\n')
+    del cell
 
     return 0
-
-
 
 
 

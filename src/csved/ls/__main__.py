@@ -5,6 +5,7 @@ import textwrap
 
 from .row.__main__ import init_parser as init_parser_ls_row
 from .col.__main__ import init_parser as init_parser_ls_col
+from .cell         import init_parser as init_parser_ls_cell
 
 
 NAME = PROG = 'ls'
@@ -49,6 +50,12 @@ def init_parser(
     assert isinstance(prclcc, argparse.ArgumentParser), type(prclcc)
     assert 'col' == prclcc.prog, prclcc.prog
     del prclcc
+
+    # prclce: parser root children ls children cell
+    prclce = init_parser_ls_cell(prclc=prclc)
+    assert isinstance(prclce, argparse.ArgumentParser), type(prclce)
+    assert 'cell' == prclce.prog, prclce.prog
+    del prclce
 
     del prclc
     return prcl
