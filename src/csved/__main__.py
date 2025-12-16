@@ -2,14 +2,14 @@ import sys
 import argparse
 
 
-from .hello .__main__ import init_parser as init_parser_hello
-from .ls    .__main__ import init_parser as init_parser_ls
-from .insert          import init_parser as init_parser_insert
-from .delete          import init_parser as init_parser_delete
-from .cp              import init_parser as init_parser_cp
-from .isempty         import init_parser as init_parser_isempty
-from .cmp             import init_parser as init_parser_cmp
-from .ed              import init_parser as init_parser_ed
+from .hello   import init_parser as init_parser_hello
+from .ls      import init_parser as init_parser_ls
+from .insert  import init_parser as init_parser_insert
+from .delete  import init_parser as init_parser_delete
+from .cp      import init_parser as init_parser_cp
+from .isempty import init_parser as init_parser_isempty
+from .cmp     import init_parser as init_parser_cmp
+from .ed      import init_parser as init_parser_ed
 
 
 def main() -> int:

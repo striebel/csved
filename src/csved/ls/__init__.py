@@ -3,9 +3,9 @@ import argparse
 import textwrap
 
 
-from .row.__main__ import init_parser as init_parser_ls_row
-from .col.__main__ import init_parser as init_parser_ls_col
-from .cell         import init_parser as init_parser_ls_cell
+from .row  import init_parser as init_parser_ls_row
+from .col  import init_parser as init_parser_ls_col
+from .cell import init_parser as init_parser_ls_cell
 
 
 NAME = PROG = 'ls'
@@ -24,14 +24,9 @@ PRCLA = {'prog': PROG, 'description': DESCRIPTION}
 
 
 
-def init_parser(
-    prc : argparse._SubParsersAction = None
-) -> argparse.ArgumentParser:
-    if prc is None:
-        prcl = argparse.ArgumentParser(**PRCLA)
-    else:
-        assert isinstance(prc, argparse._SubParsersAction), type(prc)
-        prcl = prc.add_parser(NAME, **PRCLA)
+def init_parser(prc):
+    assert isinstance(prc, argparse._SubParsersAction), type(prc)
+    prcl = prc.add_parser(NAME, **PRCLA)
     del prc
     assert isinstance(prcl, argparse.ArgumentParser), type(prcl)
 
@@ -59,35 +54,6 @@ def init_parser(
 
     del prclc
     return prcl
-
-
-
-def main() -> int:
-    # pr: parser root
-    pr = init_parser()
-    assert isinstance(pr, argparse.ArgumentParser), type(pr)
-    assert PROG == pr.prog, (PROG, pr.prog)
-    
-    args = pr.parse_args()
-    assert isinstance(args, argparse.Namespace), type(args)
-    args = vars(args)
-    assert isinstance(args, dict), type(args)
-    func = args.pop('func')
-    assert callable(func), func
-    
-    # es: exit status
-    es = func(**args)
-    del args, func
-    assert isinstance(es, int), type(es)
-    assert 0 <= es and es <= 255, es
-
-    return es
-
-
-
-if '__main__' == __name__:
-    sys.exit(main())
-
 
 
 
