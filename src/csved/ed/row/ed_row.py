@@ -65,7 +65,13 @@ def ed_row(rowidx: int, csv_file_path: str) -> int:
         else:
             assert 70 < len(colvalue)
             
-            lines = textwrap.wrap(text=colvalue, width=70)
+            lines = \
+                textwrap.wrap(
+                    text             = colvalue,
+                    width            = 70,
+                    break_long_words = False,
+                    break_on_hyphens = False,
+                )
             assert isinstance(lines, list), type(lines)
             assert 0 < len(lines)
             
