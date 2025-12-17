@@ -31,7 +31,7 @@ def isempty_row(rowidx: int, csv_file_path: str) -> int:
         return 1
 
     assert isempty is True
-    sys.stderr.write('row IS empty\n')
+    sys.stderr.write('row IS indeed empty\n')
     return 0
     
 

@@ -158,7 +158,8 @@ def ls_row(
     
     :return: exit status
     '''
-    assert isinstance(rowidx, int), type(rowidx)
+    if rowidx is not None:
+        assert isinstance(rowidx, int), type(rowidx)
 
     assert isinstance(csv_file_path, str), type(csv_file_path)
     assert 0 < len(csv_file_path)

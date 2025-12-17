@@ -31,6 +31,20 @@ def init_parser(prclc):
     assert isinstance(prclcc, argparse.ArgumentParser), type(prclcc)
 
     prclcc.add_argument(
+        '-c',
+        '--colidx',
+        dest     = 'colidx',
+        type     = int,
+        required = False,
+    )
+    prclcc.add_argument(
+        '-d',
+        '--distinct',
+        dest   = 'distinct',
+        action = 'store_true',
+        help   = 'list only distinct values that appear in the column',
+    )
+    prclcc.add_argument(
         'csv_file_path',
         type = str,
     )
