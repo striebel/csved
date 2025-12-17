@@ -57,8 +57,8 @@ def ls_col_distinct_values(colidx: int, csv_file_path) -> int:
         assert isinstance(value, str), type(value)
         if value not in values:
             values.append(value)
-            if max_width < len(values):
-                max_width = len(values)
+            if max_width < len(value):
+                max_width = len(value)
 
     fn = fieldname.ljust(max_width)
     del fieldname
