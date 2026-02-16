@@ -36,11 +36,11 @@ def ls_col_headers(csv_file_path: str) -> int:
     return 0
 
 
-def ls_col_distinct_values(colidx: int, csv_file_path) -> int:
+def ls_col_distinct_values(colidx: int, csv_file_path: str) -> int:
     rows = read_csv_file(csv_file_path=csv_file_path)
     assert isinstance(rows, list), type(rows)
     assert 0 < len(rows)
-    assert isinstance(rows[0], list), type(rows)
+    assert isinstance(rows[0], list), type(rows[0])
     assert 0 < len(rows[0])
     assert isinstance(rows[0][0], str), type(rows[0][0])
 
@@ -52,7 +52,7 @@ def ls_col_distinct_values(colidx: int, csv_file_path) -> int:
     values = []
     for row in rows[1:]:
         assert isinstance(row, list), type(row)
-       
+        
         value = row[colidx] 
         assert isinstance(value, str), type(value)
         if value not in values:
@@ -65,7 +65,7 @@ def ls_col_distinct_values(colidx: int, csv_file_path) -> int:
     
     # ul: underline
     ul = '-' * max_width
-
+    
     sys.stdout.write(f'{fn}\n'); del fn
     sys.stdout.write(f'{ul}\n'); del ul
 
@@ -76,6 +76,46 @@ def ls_col_distinct_values(colidx: int, csv_file_path) -> int:
 
     return 0
 
+
+
+def _ls_col(colidx: int, csv_file_path: str) -> int:
+    rows = read_csv_file(csv_file_path=csv_file_path)
+    assert isinstance(rows, list), type(rows)
+    assert 0 < len(rows)
+    assert isinstance(rows[0], list), type(rows[0])
+    assert 0 < len(rows[0])
+    assert isinstance(rows[0][0], str), type(rows[0][0])
+
+    fieldname = rows[0][colidx]
+    assert isinstance(fieldname, str), type(fieldname)
+
+    max_rowidx_width     = len('rowidx')
+    max_fieldvalue_width = len(fieldname)
+
+    rowidx__fieldvalue = [['rowidx', fieldname]]
+
+    for i in range(1,len(rows)):
+        # fv: fieldvalue
+        fv = rows[i][colidx]
+        assert isinstance(fv, str), type(fv)
+        rowidx__fieldvalue.append([str(i), fv])
+        if max_rowidx_width < len(str(i)):
+            max_rowidx_width = len(str(i))
+        if max_fieldvalue_width < len(fv):
+            max_fieldvalue_width = len(fv)
+        del fv
+        del i
+
+    rowidx__fieldvalue.insert(
+        1, ['-'*max_rowidx_width, '-'*max_fieldvalue_width]
+    )
+
+    for ri,fv in rowidx__fieldvalue:
+        ri = ri.rjust(max_rowidx_width)
+        fv = fv.ljust(max_fieldvalue_width)
+        sys.stdout.write(f'{ri}{" "*2}{fv}\n')
+
+    return 0
 
 
 def ls_col(colidx: int, distinct: bool, csv_file_path: str) -> int:
@@ -104,7 +144,11 @@ def ls_col(colidx: int, distinct: bool, csv_file_path: str) -> int:
                 )
         else:
             assert distinct is False, distinct
-            raise NotImplementedError('try passing -d/--distinct')
+            exit_status = \
+                _ls_col(
+                    colidx        = colidx,
+                    csv_file_path = csv_file_path,
+                )
 
     assert isinstance(exit_status, int), type(exit_status)
     assert 0 <= exit_status and exit_status <= 255, exit_status
